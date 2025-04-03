@@ -1,0 +1,23 @@
+services:
+  mongo:
+    build:
+      context: .
+      dockerfile: dockerfile
+      args:
+        MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+        MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    command: >
+      bash -c "
+        cron;
+        /usr/local/bin/docker-entrypoint.sh mongod
+      "
+    container_name: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./backups:/backups
+      - ./mongo:/data/db
