@@ -19,5 +19,5 @@ services:
       - "27017:27017"
     restart: always
     volumes:
-      - /backups:/backups
+      - ./backups:/backups
       - ./mongo:/data/db
