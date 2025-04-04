@@ -1,11 +1,11 @@
 services:
   mongo:
     build:
+      args:
+        MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+        MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       context: .
       dockerfile: dockerfile
-      args:
-        MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-        MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     command: >
       bash -c "
         cron;
@@ -13,11 +13,11 @@ services:
       "
     container_name: mongo
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-    restart: always
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
     ports:
       - "27017:27017"
+    restart: always
     volumes:
-      - ./backups:/backups
+      - /backups:/backups
       - ./mongo:/data/db
